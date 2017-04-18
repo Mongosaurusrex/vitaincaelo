@@ -347,7 +347,7 @@ if __name__ == '__main__':
     def serializeDataAndSend(value):
         val = str(value)
         ser = serial.Serial('COM3')
-        ser.write(b + val + '\n')
+        ser.write(str(value) + '\n')
         ser.close()
 
 
