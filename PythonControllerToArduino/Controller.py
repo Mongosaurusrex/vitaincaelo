@@ -4,7 +4,6 @@ import os, sys
 import threading
 import time
 import serial
-import struct
 
 """
 NOTES - pygame events and values
@@ -346,16 +345,17 @@ if __name__ == '__main__':
 
 
     def serializeDataAndSend(value):
-        bin = struct.pack('d', value)
-        print "Sending {} to Arduino".format(bin)
-        for b in bin:
-            ser.write(b)
+        val = str(value)
+        ser = serial.Serial('COM3')
+        ser.write(b + val + '\n')
+        ser.close()
+
 
     #specific callbacks for the left thumb (X & Y)
     def leftThumbX(xValue):
-        print "LX {}".format(xValue)
+        serializeDataAndSend(xValue)
     def leftThumbY(yValue):
-        print "LY {}".format(yValue)
+        serializeDataAndSend(yValue)
 
     #setup xbox controller, set out the deadzone and scale, also invert the Y Axis (for some reason in Pygame negative is up - wierd! 
     xboxCont = XboxController(controlCallBack, deadzone = 30, scale = 100, invertYAxis = True)
